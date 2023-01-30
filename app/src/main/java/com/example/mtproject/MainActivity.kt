@@ -21,11 +21,9 @@ class MainActivity : AppCompatActivity() {
         // Create ViewModel
         m_viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        m_viewModel.country.observe(this, Observer { value ->
-            updateCountryUI(value)
-        })
-
-        m_binding.buttonSearch.setOnClickListener { m_viewModel.updateCountry(m_binding.editCountry.text.toString()) }
+        m_binding.editCountryField = m_binding.editCountry
+        m_binding.mainViewModel = m_viewModel
+        m_binding.lifecycleOwner = this
 
         REST.initialize(m_APIKey, m_host)
 
