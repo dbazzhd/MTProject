@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MTProject</string>
+    <string name="hint_country">Type in country name</string>
+    <string name="button_search">Search</string>
 </resources>
