@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Covid-19 Tracking</string>
+    <string name="activity_headline_main">Search a country</string>
+    <string name="activity_headline_overview">Global overview</string>
     <string name="hint_country">Type in country name</string>
     <string name="button_search">Search</string>
+    <string name="button_overview">Go to Overview</string>
+    <string name="button_main">Go to Main</string>
 </resources>

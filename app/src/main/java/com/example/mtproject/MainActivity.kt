@@ -1,7 +1,10 @@
 package com.example.mtproject
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.mtproject.databinding.ActivityMainBinding
@@ -22,8 +25,16 @@ class MainActivity : AppCompatActivity() {
 
         m_binding.editCountryField = m_binding.editCountry
         m_binding.mainViewModel = m_mainViewModel
+        m_binding.owner = this
         m_binding.lifecycleOwner = this
 
         m_mainViewModel.refreshDataFromRepository()
+    }
+
+    fun goToOverview() {
+        Handler(Looper.getMainLooper()).postDelayed( {
+            val intent = Intent(this@MainActivity, OverviewActivity::class.java)
+            startActivity(intent)
+        }, 500)
     }
 }

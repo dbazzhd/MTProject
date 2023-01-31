@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/text_countryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="CountryName"
+            android:textColor="@color/crimson_bright"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_activeCases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="+5"
+            android:textAlignment="textEnd"
+            android:textColor="@color/blue"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/text_newCases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="37dp"
+            android:text="+3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/green"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/text_newDeaths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="+3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/red"
+            android:textSize="14dp" />
+
+
+
+        <TextView
+            android:id="@+id/text_totalCases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+5"
+            android:textColor="@color/black"
+            android:layout_below="@+id/text_countryName"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="6dp"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/text_totalRecovered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+3"
+            android:textColor="@color/green"
+            android:layout_below="@+id/text_totalCases"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="6dp"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/text_totalDeaths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_totalCases"
+            android:layout_marginLeft="175dp"
+            android:layout_marginTop="6dp"
+            android:text="+3"
+            android:textColor="@color/red"
+            android:textSize="14dp" />
+
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

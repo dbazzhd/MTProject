@@ -29,11 +29,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         get() = m_isNetworkErrorShown
 
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("MainViewModel", "MainViewModel destroyed!")
-    }
-
     fun updateCountry(countryName: String) {
         if (!countryName.isNullOrEmpty() && !countryName.isNullOrBlank()) {
             val name: String = countryName.lowercase()
@@ -63,8 +58,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     m_countriesNONDATABASE.add(item)
                 }
                 println(m_countriesNONDATABASE?.size)
+                Log.d("MainActivity", "Success")
             } catch(exception: Exception) {
-                Log.i("API ERROR", exception.message.toString())
+                Log.e("MainActivity", exception.message.toString())
             }
         }
     }
