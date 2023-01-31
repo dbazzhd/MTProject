@@ -35,3 +35,18 @@ fun List<NetworkCountry>.toDatabaseCountries(): List<DatabaseCountry> {
         )
     }
 }
+
+fun List<NetworkCountry>.toCountries(): List<Country> {
+    return map {
+        Country(
+            ActiveCases = (if (it.ActiveCases == null) "N/A" else it.ActiveCases!!),
+            Name = (if (it.Name == null) "N/A" else it.Name!!),
+            LastUpdate = (if (it.LastUpdate == null) "N/A" else it.LastUpdate!!),
+            NewCases = (if (it.NewCases == null) "N/A" else it.NewCases!!),
+            NewDeaths = (if (it.NewDeaths == null) "N/A" else it.NewDeaths!!),
+            TotalCases = (if (it.TotalCases == null) "N/A" else it.TotalCases!!),
+            TotalDeaths = (if (it.TotalDeaths == null) "N/A" else it.TotalDeaths!!),
+            TotalRecovered = (if (it.TotalRecovered == null) "N/A" else it.TotalRecovered!!)
+        )
+    }
+}

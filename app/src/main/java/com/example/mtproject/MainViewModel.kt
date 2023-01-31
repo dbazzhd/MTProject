@@ -58,7 +58,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 //m_countriesRepository.refreshCountries()
                 m_countriesNONDATABASE.clear()
-                val list = API.retrofitService.getCountries().toDatabaseCountries().toCountries()
+                val list = API.retrofitService.getCountries().toCountries()
                 for (item in list) {
                     m_countriesNONDATABASE.add(item)
                 }
