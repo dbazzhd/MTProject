@@ -1,7 +1,10 @@
 package com.example.mtproject
 
+import android.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.example.mtproject.databinding.ActivityMainBinding
 
@@ -25,5 +28,6 @@ class MainActivity : AppCompatActivity() {
         m_binding.lifecycleOwner = this
 
         REST.initialize(m_APIKey, m_host)
+        m_mainViewModel.downloadCountries()
     }
 }

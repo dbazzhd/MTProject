@@ -40,7 +40,7 @@ object REST {
         })
     }
 
-    fun getCountries(onResponse: (countries: List<Country>) -> Unit) {
+    fun getCountries(onResponse: (countries: MutableList<Country>) -> Unit) {
         val request = Request.Builder()
             .url("https://$m_host/v1")
             .get()
@@ -54,7 +54,7 @@ object REST {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val countries: List<Country> = m_gson.fromJson(response.body()!!.string(), object: TypeToken<List<Country?>?>() {}.type)
+                val countries: MutableList<Country> = m_gson.fromJson(response.body()!!.string(), object: TypeToken<MutableList<Country?>?>() {}.type)
                 onResponse(countries)
             }
         })

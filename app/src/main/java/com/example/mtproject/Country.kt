@@ -19,4 +19,8 @@ data class Country(
     var TotalDeaths: String = "N/A",
     @SerializedName("Total Recovered_text")
     var TotalRecovered: String = "N/A"
-)
+) {
+    override fun toString(): String {
+        return Name
+    }
+}
