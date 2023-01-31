@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\z004ffce\.android\avd\Sony_Xperia_IV_10_API_31.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="HQ6287014D" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-01-30T18:41:19.429482300Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-01-30T18:59:01.214635700Z" />
   </component>
 </project>
