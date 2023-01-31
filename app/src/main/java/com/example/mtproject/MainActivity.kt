@@ -1,33 +1,29 @@
 package com.example.mtproject
 
-import android.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.mtproject.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private val m_APIKey: String = "258bef614dmsh66cb9d23d2af467p104408jsnd02ea168d3ba"
-    private val m_host: String = "covid-19-tracking.p.rapidapi.com"
 
     private lateinit var m_binding: ActivityMainBinding
-    private lateinit var m_mainViewModel: MainViewModel
+    private val m_mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(this, MainViewModel.Factory(this.application)).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create binding
         m_binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(m_binding.root)
-        // Create ViewModel
-        m_mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         m_binding.editCountryField = m_binding.editCountry
         m_binding.mainViewModel = m_mainViewModel
         m_binding.lifecycleOwner = this
 
-        REST.initialize(m_APIKey, m_host)
-        m_mainViewModel.downloadCountries()
+        m_mainViewModel.refreshDataFromRepository()
     }
 }

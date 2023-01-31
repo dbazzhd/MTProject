@@ -1,62 +1,41 @@
+import API.m_APIKey
+import API.m_host
 import com.example.mtproject.Country
+import com.example.mtproject.NetworkCountry
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.*
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.*
+import retrofit2.Call
+import retrofit2.http.Headers
 import java.io.IOException
-import kotlin.reflect.typeOf
 
 
-object REST {
 
-    private val m_client: OkHttpClient = OkHttpClient()
-    private lateinit var m_APIKey: String
-    private lateinit var m_host: String
-    private lateinit var m_gson: Gson
+interface APIService {
+    @Headers("X-RapidAPI-Key: " + m_APIKey, "X-RapidAPI-Host: " + m_host)
+    @GET("v1")
+    suspend fun getCountries(): List<NetworkCountry>
+}
 
-    fun initialize(pAPIKey: String, pHost: String) {
-        m_APIKey = pAPIKey
-        m_host = pHost
-        m_gson = GsonBuilder().create()
-    }
+object API {
+    const val m_APIKey: String = "7aba35782bmsh2a3eadbb2d7d16cp1de603jsnd2acc5b0a930"
+    const val m_host: String = "covid-19-tracking.p.rapidapi.com"
 
-    fun getCountry(pCountry: String, onResponse: (country: Country) -> Unit) {
-        val request = Request.Builder()
-            .url("https://$m_host/v1/$pCountry")
-            .get()
-            .addHeader("X-RapidAPI-Key", m_APIKey)
-            .addHeader("X-RapidAPI-Host", m_host)
-            .build()
 
-        m_client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+    private val m_moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
-            override fun onResponse(call: Call, response: Response) {
-                val country: Country = m_gson.fromJson(response.body()!!.string(), Country::class.java)
-                onResponse(country)
-            }
-        })
-    }
+    private val m_retrofit = Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(m_moshi))
+        .baseUrl("https://${m_host}/")
+        .build()
 
-    fun getCountries(onResponse: (countries: MutableList<Country>) -> Unit) {
-        val request = Request.Builder()
-            .url("https://$m_host/v1")
-            .get()
-            .addHeader("X-RapidAPI-Key", m_APIKey)
-            .addHeader("X-RapidAPI-Host", m_host)
-            .build()
-
-        m_client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val countries: MutableList<Country> = m_gson.fromJson(response.body()!!.string(), object: TypeToken<MutableList<Country?>?>() {}.type)
-                onResponse(countries)
-            }
-        })
-    }
+    val retrofitService: APIService = m_retrofit.create(APIService::class.java)
 }

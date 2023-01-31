@@ -1,30 +1,32 @@
 package com.example.mtproject
 
-import android.R
+
+import android.app.Application
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val m_blankCountry = Country()
+    private val m_countriesRepository = CountriesRepository(getDatabase(application))
 
-    private val m_country = MutableLiveData<Country>()
-    val country: LiveData<Country>
-        get() = m_country
+    private val m_countries = m_countriesRepository.countries
 
-    private val m_countries = MutableLiveData<MutableList<Country>>()
-    val countries: LiveData<MutableList<Country>>
-        get() = m_countries
 
-    init {
-        m_country.value = Country()
-        m_countries.value = MutableList(1) { m_blankCountry }
-        Log.i("MainViewModel", "MainViewModel created!")
-    }
+    private val m_countriesNONDATABASE = mutableListOf<Country>()
+
+    lateinit var asa: String
+
+    val country = MutableLiveData<Country>()
+
+
+    private var m_eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = m_eventNetworkError
+
+    private var m_isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    val isNetworkErrorShown: LiveData<Boolean>
+        get() = m_isNetworkErrorShown
 
 
     override fun onCleared() {
@@ -32,23 +34,52 @@ class MainViewModel : ViewModel() {
         Log.i("MainViewModel", "MainViewModel destroyed!")
     }
 
-    fun updateCountry(country: String) {
-        if (!country.isNullOrEmpty() && !country.isNullOrBlank()) {
-            var result: Country = m_blankCountry
-            val name: String = country.lowercase()
-            for (item in m_countries.value!!){
+    fun updateCountry(countryName: String) {
+        if (!countryName.isNullOrEmpty() && !countryName.isNullOrBlank()) {
+            val name: String = countryName.lowercase()
+            /*for (item in m_countries.value!!){
                 if (item.Name.lowercase() == name) {
-                    result = item
+                    country.value = item
+                    break
+                }
+            }*/
+
+            for (item in m_countriesNONDATABASE){
+                if (item.Name.lowercase() == name) {
+                    country.value = item
                     break
                 }
             }
-            m_country.value = result
         }
     }
 
-    fun downloadCountries() {
-        REST.getCountries {
-            m_countries.postValue(it)
+    fun refreshDataFromRepository() {
+        viewModelScope.launch {
+            try {
+                //m_countriesRepository.refreshCountries()
+                m_countriesNONDATABASE.clear()
+                val list = API.retrofitService.getCountries().toDatabaseCountries().toCountries()
+                for (item in list) {
+                    m_countriesNONDATABASE.add(item)
+                }
+                println(m_countriesNONDATABASE?.size)
+            } catch(exception: Exception) {
+                Log.i("API ERROR", exception.message.toString())
+            }
+        }
+    }
+
+    fun onNetworkErrorShown() {
+        m_isNetworkErrorShown.value = true
+    }
+
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

@@ -1,12 +1,32 @@
 package com.example.mtproject
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class DatabaseCountry(
-    var ActiveCases: String = "N/A",
-    var Name: String = "N/A",
-    var LastUpdate: String = "N/A",
-    var NewCases: String = "N/A",
-    var NewDeaths: String = "N/A",
-    var TotalCases: String = "N/A",
-    var TotalDeaths: String = "N/A",
-    var TotalRecovered: String = "N/A")
+@Entity(tableName = "country")
+data class DatabaseCountry constructor(
+    val ActiveCases: String,
+    @PrimaryKey
+    val Name: String,
+    val LastUpdate: String,
+    val NewCases: String,
+    val NewDeaths: String,
+    val TotalCases: String,
+    val TotalDeaths: String,
+    val TotalRecovered: String
+)
+
+fun List<DatabaseCountry>.toCountries(): List<Country> {
+    return map {
+        Country(
+            ActiveCases = it.ActiveCases,
+            Name = it.Name,
+            LastUpdate = it.LastUpdate,
+            NewCases = it.NewCases,
+            NewDeaths = it.NewDeaths,
+            TotalCases = it.TotalCases,
+            TotalDeaths = it.TotalDeaths,
+            TotalRecovered = it.TotalRecovered
+        )
+    }
+}
